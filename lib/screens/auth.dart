@@ -87,110 +87,119 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       backgroundColor: Colors.orange, //Theme.of(context).colorScheme.primary,
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 30, bottom: 20, left: 20, right: 20),
-                width: 200,
-                child: Image.asset('lib/assets/images/chat.png'),
-              ),
-              Card(
-                color: Colors.white,
-                margin: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Form(
-                          key: form_key,
-                          child: Column(
-                            children: [
-                              if (!_isLogin)
-                                UserImagePicker(onPickedImage: (pickedImage) {
-                                  _selectedImage = pickedImage;
-                                }),
-                              if (!_isLogin)
+        child: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('lib/assets/images/bg.jpg'),
+                  fit: BoxFit.cover)),
+          width: double.infinity,
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                      top: 30, bottom: 20, left: 20, right: 20),
+                  width: 200,
+                  child: Image.asset('lib/assets/images/chat1.png'),
+                ),
+                Card(
+                  color: Colors.white,
+                  margin: const EdgeInsets.all(20),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Form(
+                            key: form_key,
+                            child: Column(
+                              children: [
+                                if (!_isLogin)
+                                  UserImagePicker(onPickedImage: (pickedImage) {
+                                    _selectedImage = pickedImage;
+                                  }),
+                                if (!_isLogin)
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Username',
+                                    ),
+                                    keyboardType: TextInputType.streetAddress,
+                                    enableSuggestions: false,
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.trim().length < 4) {
+                                        return;
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (newValue) {
+                                      enteredUsername = newValue!;
+                                    },
+                                  ),
                                 TextFormField(
                                   decoration: const InputDecoration(
-                                    labelText: 'Username',
+                                    labelText: 'Email Address',
                                   ),
-                                  keyboardType: TextInputType.streetAddress,
-                                  enableSuggestions: false,
+                                  keyboardType: TextInputType.emailAddress,
+                                  autocorrect: false,
+                                  textCapitalization: TextCapitalization.none,
                                   validator: (value) {
                                     if (value == null ||
-                                        value.trim().length < 4) {
-                                      return;
+                                        value.trim().isEmpty ||
+                                        !value.contains('@')) {
+                                      return 'Please Enter correct value';
                                     }
+
                                     return null;
                                   },
                                   onSaved: (newValue) {
-                                    enteredUsername = newValue!;
+                                    enteredEmail = newValue!;
                                   },
                                 ),
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Email Address',
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                autocorrect: false,
-                                textCapitalization: TextCapitalization.none,
-                                validator: (value) {
-                                  if (value == null ||
-                                      value.trim().isEmpty ||
-                                      !value.contains('@')) {
-                                    return 'Please Enter correct value';
-                                  }
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Password',
+                                  ),
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.trim().length < 6) {
+                                      return 'Please Enter Valid Password';
+                                    }
 
-                                  return null;
-                                },
-                                onSaved: (newValue) {
-                                  enteredEmail = newValue!;
-                                },
-                              ),
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Password',
+                                    return null;
+                                  },
+                                  onSaved: (newValue) {
+                                    enteredPassword = newValue!;
+                                  },
                                 ),
-                                obscureText: true,
-                                validator: (value) {
-                                  if (value == null ||
-                                      value.trim().length < 6) {
-                                    return 'Please Enter Valid Password';
-                                  }
-
-                                  return null;
-                                },
-                                onSaved: (newValue) {
-                                  enteredPassword = newValue!;
-                                },
-                              ),
-                              if (_isAuthanticated)
-                                const CircularProgressIndicator(),
-                              if (!_isAuthanticated)
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .primaryContainer),
-                                    onPressed: _submit,
-                                    child: Text(_isLogin ? 'Login' : 'Signup')),
-                              if (!_isAuthanticated)
-                                TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _isLogin = !_isLogin;
-                                      });
-                                    },
-                                    child: Text(_isLogin
-                                        ? 'Create an account'
-                                        : 'Already have account'))
-                            ],
-                          ))),
-                ),
-              )
-            ],
+                                if (_isAuthanticated)
+                                  const CircularProgressIndicator(),
+                                if (!_isAuthanticated)
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer),
+                                      onPressed: _submit,
+                                      child:
+                                          Text(_isLogin ? 'Login' : 'Signup')),
+                                if (!_isAuthanticated)
+                                  TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _isLogin = !_isLogin;
+                                        });
+                                      },
+                                      child: Text(_isLogin
+                                          ? 'Create an account'
+                                          : 'Already have account'))
+                              ],
+                            ))),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
