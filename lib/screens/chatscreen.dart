@@ -33,7 +33,7 @@ class _chatScreenState extends State<chatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Group chat '),
+        title: Text('The Moments'),
         actions: [
           IconButton(
               onPressed: () {

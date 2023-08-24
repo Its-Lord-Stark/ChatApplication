@@ -85,12 +85,12 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange, //Theme.of(context).colorScheme.primary,
+      backgroundColor: Colors.white, //Theme.of(context).colorScheme.primary,
       body: Center(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('lib/assets/images/bg.jpg'),
+                  image: AssetImage('lib/assets/images/cream.jpg'),
                   fit: BoxFit.cover)),
           width: double.infinity,
           height: double.infinity,
@@ -98,14 +98,21 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 30,
+                ),
                 Container(
                   margin: const EdgeInsets.only(
                       top: 30, bottom: 20, left: 20, right: 20),
                   width: 200,
-                  child: Image.asset('lib/assets/images/chat1.png'),
+                  child: Image.asset('lib/assets/images/ch.png'),
                 ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 Card(
-                  color: Colors.white,
+                  elevation: 0,
+                  color: Colors.transparent,
                   margin: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
                     child: Padding(
@@ -117,10 +124,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                 if (!_isLogin)
                                   UserImagePicker(onPickedImage: (pickedImage) {
                                     _selectedImage = pickedImage;
+                                    
                                   }),
                                 if (!_isLogin)
                                   TextFormField(
                                     decoration: const InputDecoration(
+                                      labelStyle: TextStyle(
+                                        color: Colors.black,
+                                      ),
                                       labelText: 'Username',
                                     ),
                                     keyboardType: TextInputType.streetAddress,
@@ -138,6 +149,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 TextFormField(
                                   decoration: const InputDecoration(
+                                    labelStyle: TextStyle(
+                                      color: Colors.black,
+                                    ),
                                     labelText: 'Email Address',
                                   ),
                                   keyboardType: TextInputType.emailAddress,
@@ -158,6 +172,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                 TextFormField(
                                   decoration: const InputDecoration(
+                                    labelStyle: TextStyle(
+                                      color: Colors.black,
+                                    ),
                                     labelText: 'Password',
                                   ),
                                   obscureText: true,
@@ -176,24 +193,34 @@ class _AuthScreenState extends State<AuthScreen> {
                                 if (_isAuthanticated)
                                   const CircularProgressIndicator(),
                                 if (!_isAuthanticated)
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primaryContainer),
-                                      onPressed: _submit,
-                                      child:
-                                          Text(_isLogin ? 'Login' : 'Signup')),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 244, 201, 123)),
+                                    onPressed: _submit,
+                                    child: Text(
+                                      _isLogin ? 'Login' : 'Signup',
+                                      style: TextStyle(color: Colors.black),
+                                    )),
                                 if (!_isAuthanticated)
-                                  TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _isLogin = !_isLogin;
-                                        });
-                                      },
-                                      child: Text(_isLogin
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isLogin = !_isLogin;
+                                      });
+                                    },
+                                    child: Text(
+                                      _isLogin
                                           ? 'Create an account'
-                                          : 'Already have account'))
+                                          : 'Already have account',
+                                      style: TextStyle(color: Colors.black),
+                                    ))
                               ],
                             ))),
                   ),
