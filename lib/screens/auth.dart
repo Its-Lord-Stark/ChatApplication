@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -24,6 +25,24 @@ class _AuthScreenState extends State<AuthScreen> {
   var enteredUsername = '';
   File? _selectedImage;
   final form_key = GlobalKey<FormState>();
+
+  void _launchURL() async {
+    Uri _url = Uri.parse('https://www.linkedin.com/in/atharv-karne/');
+    if (await launchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      throw 'Could not launch $_url';
+    }
+  }
+
+  void _launchURLGT() async {
+    Uri _url = Uri.parse('https://github.com/Its-Lord-Stark');
+    if (await launchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      throw 'Could not launch $_url';
+    }
+  }
 
 //Function that submit data to firebase
   void _submit() async {
@@ -85,12 +104,13 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white, //Theme.of(context).colorScheme.primary,
       body: Center(
         child: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('lib/assets/images/cream.jpg'),
+                  image: AssetImage('lib/assets/images/login.png'),
                   fit: BoxFit.cover)),
           width: double.infinity,
           height: double.infinity,
@@ -98,21 +118,21 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(
-                  height: 30,
-                ),
                 Container(
                   margin: const EdgeInsets.only(
                       top: 30, bottom: 20, left: 20, right: 20),
                   width: 200,
-                  child: Image.asset('lib/assets/images/ch.png'),
+                  child: Image.asset('lib/assets/images/new.png'),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
+                if (_isLogin)
+                  const SizedBox(
+                    height: 10,
+                  ),
                 Card(
                   elevation: 0,
-                  color: Colors.transparent,
+                  color: const Color.fromARGB(0, 255, 255, 255),
+                  // color: Colors.white,
+
                   margin: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
                     child: Padding(
@@ -122,10 +142,12 @@ class _AuthScreenState extends State<AuthScreen> {
                             child: Column(
                               children: [
                                 if (!_isLogin)
-                                  UserImagePicker(onPickedImage: (pickedImage) {
-                                    _selectedImage = pickedImage;
-                                    
-                                  }),
+                                  Container(
+                                    child: UserImagePicker(
+                                        onPickedImage: (pickedImage) {
+                                      _selectedImage = pickedImage;
+                                    }),
+                                  ),
                                 if (!_isLogin)
                                   TextFormField(
                                     decoration: const InputDecoration(
@@ -194,33 +216,67 @@ class _AuthScreenState extends State<AuthScreen> {
                                   const CircularProgressIndicator(),
                                 if (!_isAuthanticated)
                                   const SizedBox(
-                                    height: 20,
+                                    height: 30,
                                   ),
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor:
-                                            Color.fromARGB(255, 244, 201, 123)),
+                                            Color.fromARGB(255, 84, 190, 243)),
                                     onPressed: _submit,
                                     child: Text(
                                       _isLogin ? 'Login' : 'Signup',
-                                      style: TextStyle(color: Colors.black),
+                                      style: TextStyle(color: Colors.black , fontSize: 15,fontWeight: FontWeight.bold),
                                     )),
                                 if (!_isAuthanticated)
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
+                                  if (_isLogin)
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
                                 TextButton(
                                     onPressed: () {
                                       setState(() {
                                         _isLogin = !_isLogin;
                                       });
                                     },
-                                    child: Text(
-                                      _isLogin
-                                          ? 'Create an account'
-                                          : 'Already have account',
-                                      style: TextStyle(color: Colors.black),
-                                    ))
+                                      child: Text(
+                                        _isLogin
+                                            ? 'Create an account'
+                                            : 'Already have account',
+                                        style: const TextStyle(
+                                            color: Color.fromARGB(255, 0, 0, 0),
+                                            fontSize: 15),
+                                      ),
+                                    ),
+                                if (_isLogin)
+                                  const SizedBox(
+                                    height: 85,
+                                  ),
+                                if (_isLogin) const Text("Having any issues?"),
+                                if (_isLogin) const Text("Feel welcome to inquire"),
+                                if (_isLogin)
+                                  InkWell(
+                                    onTap: _launchURL,
+                                    child: const Text(
+                                      'Linkdein',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                        // decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                if (_isLogin)
+                                  InkWell(
+                                    onTap: _launchURLGT,
+                                    child: const Text(
+                                      'GitHub',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                        // decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
                               ],
                             ))),
                   ),
